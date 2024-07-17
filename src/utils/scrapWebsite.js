@@ -37,20 +37,20 @@ async function scrapWebsite(url) {
     if (emails.size > 0) {
       return { emails: Array.from(emails), url: url.replace("https://", "") };
     } else {
-      return null;
+      return { emails: null, url: url.replace("https://", "") };
     }
   } catch (error) {
     if (error.response) {
       console.error(
         `Error fetching data from ${url}. Status code: ${error.response.status}`,
       );
-      return null;
+      return { emails: null, url: url.replace("https://", "") };
     } else if (error.request) {
       console.error(`Error fetching data from ${url}. No response received.`);
-      return null;
+      return { emails: null, url: url.replace("https://", "") };
     } else {
       console.error(`Error fetching data from ${url}:`, error.message);
-      return null;
+      return { emails: null, url: url.replace("https://", "") };
     }
   }
 }

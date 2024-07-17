@@ -22,8 +22,8 @@ const jsonToCsvConverter = (data) => {
       
       // Process data and write to stream
       data.forEach(entry => {
-        if (entry && entry.emails && entry.url) {
-          const emails = entry.emails.join(','); // Join emails with semicolons
+        if (entry && entry.url) {
+          const emails =entry.emails? entry.emails.join(',') : null; // Join emails with semicolons
           const row = `${escapeCsvValue(emails)},${escapeCsvValue(entry.url)}\n`;
           writableStream.write(row);
         }
@@ -37,7 +37,7 @@ const jsonToCsvConverter = (data) => {
       // Error handling for the stream
       writableStream.on('error', (err) => {
         console.error('Error writing to CSV file', err);
-        getTime()
+        
       });
       
       // Close the stream
