@@ -1,5 +1,5 @@
 import getTime from "../../newIndex.js";
-import websiteModel from "../model/websiteModel.js";
+import ArrayModel from "../model/websiteModel.js";
 import jsonToCsvConverter from "../utils/jsonToCsv.js";
 import readXlsx from "../utils/readXlsx.js";
 import dataAfterScrapingWebs from "../utils/scrapWebsite.js";
@@ -21,10 +21,13 @@ const extractEmailFromUrl = async (req, res) => {
         const httpsAddedUrls = await processStrings(data.onlyCompany, 1000);
         console.log(httpsAddedUrls, "httpsAddedUrls");
         dataAfterScrapingWebs(httpsAddedUrls)
-            .then((data) => {
+            .then(async(data) => {
                 console.log(data)
-                jsonToCsvConverter(data)
-                res.json(data)
+                // jsonToCsvConverter(data)
+                let dataModel = new ArrayModel({items:data, fileName:req.file.filename});
+                let savedData =await dataModel.save()
+                console.log(savedData)
+                res.json(savedData)
             })
             .catch((err) => { console.log(err) })
 
