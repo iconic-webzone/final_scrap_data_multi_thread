@@ -21,11 +21,12 @@ async function scrapWebsite(url) {
         if (email) {
           let arrayOfEmails = mailtoPattern.exec(href);
           let decodedEmail = decodeURIComponent(arrayOfEmails[1])
-          if (decodedEmail === "{$EMAIL}" || decodedEmail.includes("your@email") || decodedEmail.includes("example.com") || decodedEmail.includes("mailto:info@mysite.com") || decodedEmail.length < 2 || decodedEmail.length > 70 ) {
-          } else {
-            let filteredEmail = decodedEmail.replace("/", "").replace("#", "").replace(",", "").replace("mailto:","").trim();
-            emails.add(filteredEmail);
-          }
+          // if (decodedEmail === "{$EMAIL}" || decodedEmail.includes("your@email") || decodedEmail.includes("example.com") || decodedEmail.includes("mailto:info@mysite.com") || decodedEmail.length < 2 || decodedEmail.length > 70 ) {
+          // } else {
+          //   let filteredEmail = decodedEmail.replace("/", "").replace("#", "").replace(",", "").replace("mailto:","").trim();
+          //   emails.add(filteredEmail);
+          // }
+          emails.add(decodedEmail)
 
         }
       }
