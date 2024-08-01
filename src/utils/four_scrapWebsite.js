@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as cheerio from 'cheerio';
 import async from 'async';
+import { workerData, parentPort } from "worker_threads";
 
-
-
+const thread_count = 4
 async function scrapWebsite(url) {
   try {
     const response = await axios.get(url);
@@ -56,6 +56,7 @@ async function scrapWebsite(url) {
 
 const dataAfterScrapingWebs = (urls) => {
 
+
   return new Promise((res, rej) => {
     const allUrl = urls.map((url, i) => {
       return async () => {
@@ -94,8 +95,52 @@ const dataAfterScrapingWebs = (urls) => {
 
   //     // console.log(results, "results from last scrap")
 };
+function sliceArrayIntoChunks(array, numChunks) {
+  const result = [];
+  const length = array.length;
+
+  // Handle edge cases
+  if (numChunks <= 0) {
+    throw new Error('Number of chunks must be greater than 0.');
+  }
+  if (numChunks >= length) {
+    // If numChunks is greater than or equal to the array length, return each element as a chunk
+    for (let i = 0; i < length; i++) {
+      result.push([array[i]]);
+    }
+    return result;
+  }
+
+  // Calculate chunk size
+  const chunkSize = Math.ceil(length / numChunks);
+
+  for (let i = 0; i < length; i += chunkSize) {
+    const chunk = array.slice(i, i + chunkSize);
+    result.push(chunk);
+  }
+
+  return result;
+}
+
+let do_multithreading = async (urls) => {
+
+
+  let array_of_urls = sliceArrayIntoChunks(urls, thread_count)
+
+  for (let array of array_of_urls) {
+    dataAfterScrapingWebs(array)
+    .then(data => {
+      console.log(data, "data of data");
+      console.log(parentPort)
+      parentPort.postMessage(data);
+    })
+    .catch(err => console.log(err))
+
+  }
+
+}
 
 
 
 
-export default dataAfterScrapingWebs;
+export default do_multithreading;
