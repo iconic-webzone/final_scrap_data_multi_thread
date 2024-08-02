@@ -40,11 +40,7 @@ const extractEmailFromUrl = async (req, res) => {
 
 
         const thread_results = await Promise.all(workerPromises);
-        // const total =
-        //     thread_results[0] +
-        //     thread_results[1] +
-        //     thread_results[2] +
-        //     thread_results[3];
+
         const allArray = [];
         for(let array in thread_results){
             allArray.push(...array);

@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 import async from 'async';
 import { workerData, parentPort } from "worker_threads";
 
-const thread_count = 4
+
 async function scrapWebsite(url) {
   try {
     const response = await axios.get(url);
@@ -125,7 +125,7 @@ function sliceArrayIntoChunks(array, numChunks) {
 let do_multithreading = async (urls) => {
 
 
-  let array_of_urls = sliceArrayIntoChunks(urls, thread_count)
+  let array_of_urls = sliceArrayIntoChunks(urls, workerData.thread_count)
 
   for (let array of array_of_urls) {
     dataAfterScrapingWebs(array)
