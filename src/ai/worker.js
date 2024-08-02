@@ -22,7 +22,7 @@ async function scrapWebsite(url) {
         }
       }
     });
-
+    console.log({ emails: Array.from(emails), url: url.replace('https://', '') })
     return { emails: Array.from(emails), url: url.replace('https://', '') };
   } catch (error) {
     console.error(`Error fetching data from ${url}: ${error.message}`);

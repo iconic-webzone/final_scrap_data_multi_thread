@@ -10,6 +10,7 @@ import processStrings from "../utils/validUrls.js";
 
 const extractEmailFromUrl = async (req, res) => {
 
+
     try {
         if (!req.file?.path) {
             return res.status(400).send("No file uploaded.");
@@ -21,6 +22,14 @@ const extractEmailFromUrl = async (req, res) => {
         console.log(data, "csvFileRead");
         const httpsAddedUrls = await processStrings(data.onlyCompany, 1000);
         let allData =await startWorkers(httpsAddedUrls)
+        console.log(allData,"all data")
+        const allArray = [];
+        for(let array in allData){
+            allArray.push(...allData[array]);
+        }
+        console.log(allArray, "allArray")
+        let dataModel = new ArrayModel({ items: allArray, fileName: req.file.filename });
+        let savedData = await dataModel.save()
         // const httpsAddedUrls = await processStrings(data.onlyCompany, 1000);
         // console.log(httpsAddedUrls, "httpsAddedUrls");
         // do_multithreading(httpsAddedUrls)
@@ -41,10 +50,8 @@ const extractEmailFromUrl = async (req, res) => {
 
         // const thread_results = await Promise.all(workerPromises);
 
-        // const allArray = [];
-        // for(let array in thread_results){
-        //     allArray.push(...array);
-        // }
+
+        console.log(savedData)
         res.status(200).send(`result is ${allData}`);
 
     } catch (error) {
