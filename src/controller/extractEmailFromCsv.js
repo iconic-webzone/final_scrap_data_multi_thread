@@ -2,6 +2,7 @@
 import startWorkers from "../ai/main.js";
 import ArrayModel from "../model/websiteModel.js";
 import readXlsx from "../utils/readXlsx.js";
+import processStrings from "../utils/validUrls.js";
 
 
 
@@ -19,7 +20,7 @@ const extractEmailFromUrl = async (req, res) => {
         const data = await readXlsx(csvFile);
         console.log(data, "csvFileRead");
         const httpsAddedUrls = await processStrings(data.onlyCompany, 1000);
-        let allData = startWorkers(data.onlyCompany)
+        let allData =await startWorkers(httpsAddedUrls)
         // const httpsAddedUrls = await processStrings(data.onlyCompany, 1000);
         // console.log(httpsAddedUrls, "httpsAddedUrls");
         // do_multithreading(httpsAddedUrls)
