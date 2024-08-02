@@ -18,6 +18,7 @@ const extractEmailFromUrl = async (req, res) => {
         console.log(req.file, "extractEmailFromUrl");
         const data = await readXlsx(csvFile);
         console.log(data, "csvFileRead");
+        const httpsAddedUrls = await processStrings(data.onlyCompany, 1000);
         let allData = startWorkers(data.onlyCompany)
         // const httpsAddedUrls = await processStrings(data.onlyCompany, 1000);
         // console.log(httpsAddedUrls, "httpsAddedUrls");
