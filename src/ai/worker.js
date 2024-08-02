@@ -58,4 +58,6 @@ const do_multithreading = async (urls) => {
   parentPort.postMessage(results);
 };
 
+// export default do_multithreading;
+
 do_multithreading(urls);

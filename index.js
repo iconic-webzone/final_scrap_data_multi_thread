@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import connectDB from './src/db/index.js';
-// import { app } from './app.js';
-import { app } from './four_app.js'
+import { app } from './app.js';
+// import { app } from './four_app.js'
 import path  from 'path';
 
 const __dirname = path.resolve();

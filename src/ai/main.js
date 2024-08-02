@@ -1,17 +1,27 @@
 import { Worker } from 'worker_threads';
 import { cpus } from 'os';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Convert the current module URL to a file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Construct the worker path
+const workerPath = path.join(__dirname, 'worker.js');
+
 
 const THREAD_COUNT = cpus().length;
 
-const urls = [
-  'https://example.com',
-  'https://anotherexample.com',
-  'https://yetanotherexample.com'
-]; // Add more URLs as needed
+// const urls = [
+//   'https://example.com',
+//   'https://anotherexample.com',
+//   'https://yetanotherexample.com'
+// ]; // Add more URLs as needed
 
 function createWorker(urls) {
   return new Promise((resolve, reject) => {
-    const worker = new Worker('./worker.js', {
+    const worker = new Worker(workerPath, {
       workerData: { urls }
     });
     worker.on('message', (data) => {
@@ -41,9 +51,13 @@ async function startWorkers(urls) {
   try {
     const results = await Promise.all(promises);
     console.log('Results from workers:', results);
+    return results;
   } catch (error) {
     console.error('Error in workers:', error);
   }
 }
 
-startWorkers(urls);
+// startWorkers(urls);
+
+
+export default startWorkers;
